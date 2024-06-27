@@ -1,5 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:restapitodolist/Pages/fail_page.dart';
+import 'package:restapitodolist/Pages/select_language.dart';
+import 'package:restapitodolist/Pages/splash_screen.dart';
+import 'package:restapitodolist/Pages/success_page.dart';
+import 'package:restapitodolist/models/login_model.dart';
 import 'package:restapitodolist/resources/app_strings.dart';
+import 'package:restapitodolist/services/login_service.dart';
+
+String ?token;
+TextEditingController email = TextEditingController();
+TextEditingController password = TextEditingController();
+
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -35,6 +46,7 @@ class LoginPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 24, right: 16),
             child: TextField(
+              controller: email,
               decoration: InputDecoration(
                 hoverColor: Colors.white,
                 hintText: AppStrings.email,
@@ -61,6 +73,7 @@ class LoginPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 24, right: 24),
             child: TextField(
+              controller: password,
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   onPressed: () {},
@@ -116,7 +129,18 @@ class LoginPage extends StatelessWidget {
                   backgroundColor: const Color(0xFFfa9a0c),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8))),
-              onPressed: () {},
+              onPressed: () async {
+                var temp = await login(LoginModel(email: email.text, password: password.text),);
+                if (temp is String){
+                  token = temp;
+                  print('login Success');
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SuccessPage()),);
+                }
+                else{
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const FailPage()),);
+                }
+
+              },
               child: Text(
                 AppStrings.signIn,
                 style: const TextStyle(
@@ -135,7 +159,7 @@ class LoginPage extends StatelessWidget {
             child: RichText(
               text: TextSpan(children: [
                 TextSpan(
-                  text: AppStrings.dontHaveanaccount+ ' ',
+                  text: AppStrings.dontHaveanaccount + ' ',
                   style: const TextStyle(
                     color: Color(0xFF7D8FAB),
                     fontSize: 16,

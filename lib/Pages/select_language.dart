@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restapitodolist/Pages/login_page.dart';
 import 'package:restapitodolist/resources/app_strings.dart';
 
 class SelectLanguage extends StatefulWidget {
@@ -77,7 +78,9 @@ class _SelectLanguage extends State<SelectLanguage> {
                   width: 47,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginPage()));
+                  },
                   child: Text(
                     AppStrings.alarabieh,
                     style: TextStyle(
@@ -93,7 +96,8 @@ class _SelectLanguage extends State<SelectLanguage> {
               ],
             )
           ],
-        ),
+         
+         ),
       ),
     );
   }
